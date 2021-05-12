@@ -104,11 +104,11 @@ use std::net::Ipv4Addr;
 
 use crate::modeled_types::{
     BootstrapContainerMode, DNSDomain, ECSAgentLogLevel, ECSAttributeKey, ECSAttributeValue,
-    FriendlyVersion, Identifier, KubernetesAuthenticationMode, KubernetesBootstrapToken,
-    KubernetesCloudProvider, KubernetesClusterName, KubernetesEvictionHardKey, KubernetesLabelKey,
-    KubernetesLabelValue, KubernetesQuantityValue, KubernetesReservedResourceKey,
-    KubernetesTaintValue, KubernetesThresholdValue, Lockdown, SingleLineString, SysctlKey, Url,
-    ValidBase64,
+    FriendlyVersion, Identifier, IntoBase64, KubernetesAuthenticationMode,
+    KubernetesBootstrapToken, KubernetesCloudProvider, KubernetesClusterName,
+    KubernetesEvictionHardKey, KubernetesLabelKey, KubernetesLabelValue, KubernetesQuantityValue,
+    KubernetesReservedResourceKey, KubernetesTaintValue, KubernetesThresholdValue, Lockdown,
+    SingleLineString, SysctlKey, Url, ValidBase64,
 };
 
 // Kubernetes static pod manifest settings
@@ -183,7 +183,7 @@ struct HostContainer {
     source: Url,
     enabled: bool,
     superpowered: bool,
-    user_data: ValidBase64,
+    user_data: IntoBase64,
 }
 
 // Network settings. These settings will affect host service components' network behavior
@@ -262,6 +262,6 @@ struct Metadata {
 struct BootstrapContainer {
     source: Url,
     mode: BootstrapContainerMode,
-    user_data: ValidBase64,
+    user_data: IntoBase64,
     essential: bool,
 }
