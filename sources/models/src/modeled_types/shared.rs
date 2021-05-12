@@ -58,6 +58,61 @@ mod test_valid_base64 {
 
 // =^..^=   =^..^=   =^..^=   =^..^=   =^..^=   =^..^=   =^..^=   =^..^=   =^..^=
 
+/// IntoBase64 will accept valid base64 text as-is, and will convert any other text into base64.
+/// It stores and exposes the base64 form either way.
+// Note: we use the default base64::STANDARD config which uses/allows "=" padding.
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+pub struct IntoBase64 {
+    inner: String,
+}
+
+/// Returns valid base64 data as-is; base64-encodes anything else.
+impl TryFrom<&str> for IntoBase64 {
+    type Error = error::Error;
+
+    fn try_from(input: &str) -> Result<Self, Self::Error> {
+        base64::decode(&input).map_or_else(
+            |_err| {
+                Ok(IntoBase64 {
+                    inner: base64::encode(input),
+                })
+            },
+            |_base64| {
+                Ok(IntoBase64 {
+                    inner: input.to_string(),
+                })
+            },
+        )
+    }
+}
+
+string_impls_for!(IntoBase64, "IntoBase64");
+
+#[cfg(test)]
+mod test_intobase64 {
+    use super::IntoBase64;
+    use std::convert::TryFrom;
+
+    #[test]
+    fn valid_base64() {
+        let v = IntoBase64::try_from("aGk=").unwrap();
+        let decoded_bytes = base64::decode(v.as_ref()).unwrap();
+        let decoded = std::str::from_utf8(&decoded_bytes).unwrap();
+        assert_eq!(decoded, "hi");
+    }
+
+    #[test]
+    fn invalid_base64() {
+        let v = IntoBase64::try_from("invalid base64").unwrap();
+        assert_eq!(v, "aW52YWxpZCBiYXNlNjQ=");
+        let decoded_bytes = base64::decode(v.as_ref()).unwrap();
+        let decoded = std::str::from_utf8(&decoded_bytes).unwrap();
+        assert_eq!(decoded, "invalid base64");
+    }
+}
+
+// =^..^=   =^..^=   =^..^=   =^..^=   =^..^=   =^..^=   =^..^=   =^..^=   =^..^=
+
 /// SingleLineString can only be created by deserializing from a string that contains at most one
 /// line.  It stores the original form and makes it accessible through standard traits.  Its
 /// purpose is input validation, for example in cases where you want to accept input for a
