@@ -24,8 +24,8 @@ index 1b90f4b..364e7c6 100644
                  { "BHYVE",               VIRTUALIZATION_BHYVE     },
 +                { "Amazon EC2",          VIRTUALIZATION_KVM       },
          };
-         unsigned i;
          int r;
+ 
 -- 
 2.30.2
 

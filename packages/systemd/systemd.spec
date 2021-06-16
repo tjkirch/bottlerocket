@@ -2,7 +2,7 @@
 %global _cross_allow_rpath 1
 
 Name: %{_cross_os}systemd
-Version: 247.6
+Version: 248.3
 Release: 1%{?dist}
 Summary: System and Service Manager
 License: GPL-2.0-or-later AND GPL-2.0-only AND LGPL-2.1-or-later
@@ -255,6 +255,7 @@ rm -f %{buildroot}%{_cross_libdir}/systemd/{system,user}/graphical.target
 %{_cross_bindir}/udevadm
 %exclude %{_cross_bindir}/oomctl
 %exclude %{_cross_bindir}/kernel-install
+%exclude %{_cross_bindir}/systemd-sysext
 
 %{_cross_sbindir}/halt
 %{_cross_sbindir}/init
@@ -283,7 +284,6 @@ rm -f %{buildroot}%{_cross_libdir}/systemd/{system,user}/graphical.target
 %{_cross_tmpfilesdir}/*
 %exclude %{_cross_tmpfilesdir}/legacy.conf
 
-%exclude %{_cross_sysconfdir}/oomd.conf
 %exclude %{_cross_sysconfdir}/systemd/
 %exclude %{_cross_sysconfdir}/udev/
 %exclude %{_cross_sysconfdir}/X11

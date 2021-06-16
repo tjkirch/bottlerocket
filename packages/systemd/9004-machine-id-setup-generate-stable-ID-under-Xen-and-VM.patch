@@ -6,8 +6,8 @@ Subject: [PATCH 9004/9008] machine-id-setup: generate stable ID under Xen and
 
 Signed-off-by: Arnaldo Garcia Rincon <agarrcia@amazon.com>
 ---
- man/machine-id.xml          |  3 ++-
- src/core/machine-id-setup.c | 26 +++++++++++++++++++++++++-
+ man/machine-id.xml            |  3 ++-
+ src/shared/machine-id-setup.c | 26 +++++++++++++++++++++++++-
  2 files changed, 27 insertions(+), 2 deletions(-)
 
 diff --git a/man/machine-id.xml b/man/machine-id.xml
@@ -24,10 +24,10 @@ index f61634f..06aa223 100644
  
      <para>After the machine ID is established,
      <citerefentry><refentrytitle>systemd</refentrytitle><manvolnum>1</manvolnum></citerefentry>
-diff --git a/src/core/machine-id-setup.c b/src/core/machine-id-setup.c
+diff --git a/src/shared/machine-id-setup.c b/src/shared/machine-id-setup.c
 index 6d15f9c..16f8b8c 100644
---- a/src/core/machine-id-setup.c
-+++ b/src/core/machine-id-setup.c
+--- a/src/shared/machine-id-setup.c
++++ b/src/shared/machine-id-setup.c
 @@ -31,6 +31,8 @@ static int generate_machine_id(const char *root, sd_id128_t *ret) {
          const char *dbus_machine_id;
          _cleanup_close_ int fd = -1;
